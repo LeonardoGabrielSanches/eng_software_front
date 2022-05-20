@@ -19,7 +19,7 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper,
     Button,
-} from "@chakra-ui/react"
+} from "@chakra-ui/react";
 import { Player } from "../App"
 import { useState } from "react";
 import { PlayerGridLine } from "./PlayerGridLine";
