@@ -1,5 +1,7 @@
 import {
-    Box, IconButton, SimpleGrid, theme,
+    Box,
+    SimpleGrid,
+    theme,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -18,10 +20,9 @@ import {
     NumberDecrementStepper,
     Button,
 } from "@chakra-ui/react"
-import { FiEdit2 } from "react-icons/fi"
-import { AiFillDelete } from 'react-icons/ai';
 import { Player } from "../App"
 import { useState } from "react";
+import { PlayerGridLine } from "./PlayerGridLine";
 
 type PlayerListProps = {
     players: Player[]
@@ -44,29 +45,13 @@ export function PLayerList({ players, handleDeletePlayer, handleUpdatePlayer }: 
                 <Box>Deletar:</Box>
 
                 {players.map(player => (
-                    <>
-                        <Box>{player.nome}</Box>
-                        <Box>{player.gols}</Box>
-                        <IconButton
-                            aria-label='Edit'
-                            icon={<FiEdit2 />}
-                            size="xs"
-                            width="30%"
-                            onClick={() => {
-                                setEditPlayerId(player.id);
-                                onOpen();
-                            }}
-                        />
-                        <IconButton
-                            aria-label='Delete'
-                            icon={<AiFillDelete />}
-                            size="xs"
-                            width="30%"
-                            onClick={() => {
-                                handleDeletePlayer(player.id);
-                            }}
-                        />
-                    </>
+                    <PlayerGridLine
+                        key={player.id}
+                        player={player}
+                        handleDeletePlayer={handleDeletePlayer}
+                        onOpen={onOpen}
+                        setEditPlayerId={setEditPlayerId}
+                    />
                 ))}
             </SimpleGrid>
 
@@ -77,7 +62,7 @@ export function PLayerList({ players, handleDeletePlayer, handleUpdatePlayer }: 
                     <ModalCloseButton />
                     <ModalBody>
                         <FormControl >
-                            <FormLabel htmlFor='gols'>Gols</FormLabel>
+                            <FormLabel htmlFor='gols'>Quantidade a ser adicionada</FormLabel>
                             <NumberInput min={0} value={gols} onChange={e => setGols(Number(e))}>
                                 <NumberInputField id='gols' />
                                 <NumberInputStepper>
@@ -96,6 +81,7 @@ export function PLayerList({ players, handleDeletePlayer, handleUpdatePlayer }: 
                             colorScheme='blue'
                             onClick={() => {
                                 handleUpdatePlayer(editPlayerId, gols);
+                                setGols(0);
                                 onClose();
                             }}
                         >
